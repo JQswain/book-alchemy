@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Library</title>
+</head>
+<body>
+<h1>Library</h1>
+{% if message %}
+  <p> {{ message }} {{ code }} </p>
+{% endif %}
+<h3>Sort by Author</h3>
+<form action="/sort" method="POST">
+  <select name="author_id">
+    {% for author in authors %}
+    <option value="{{ author.id }}">{{ author.name }}</option>
+    {% endfor %}
+  </select>
+  <input type="submit" value="Sort by Author">
+</form>
+
+<h3>Sort by Book Title</h3>
+<form action="/sort" method="POST">
+  <select name="book_title">
+    {% for book in books %}
+    <option value="{{ book.title }}">{{ book.title }}</option>
+    {% endfor %}
+  </select>
+  <input type="submit" value="Sort by Title">
+</form>
+
+<br><br>
+
+<form action="/search" method="POST">
+  <input type="text" name="search" placeholder="Search for books or authors">
+  <input type="submit" value="Search">
+</form>
+
+<br><br>
+
+<button onclick="window.location.href='/';">Home</button>
+
+
+<hr>
+
+{% if books %}
+{% for book in books %}
+<div>
+  <h3>{{ book.title }}</h3>
+  <h4>{{ book.author.name }}</h4>
+  <img src="https://covers.openlibrary.org/b/isbn/{{ book.isbn }}-M.jpg"><form action="/book/{{ book.id }}/delete" method="POST" style="display:inline;">
+  <form action="/book/{{ book.id }}/delete" method="POST" style="display:inline;">
+  <button type="submit">Delete</button>
+  </form>
+</div>
+{% endfor %}
+{% else %}
+<p>No books found.</p>
+{% endif %}
+
+<h4>Delete Author</h4>
+<form action="/author/delete" method="POST">
+  <select name="author_id" required>
+    {% for author in authors %}
+    <option value="{{ author.id }}">{{ author.name }}</option>
+    {% endfor %}
+  </select>
+  <input type="submit" value="Delete Author">
+</form>
+</form>
+</body>
+</html>
