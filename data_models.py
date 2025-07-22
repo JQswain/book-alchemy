@@ -8,7 +8,7 @@ class Author(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(255), nullable=False)
     birth_date = db.Column(db.Date, nullable=False)
-    date_of_death = db.Column(db.Date, nullable=False)
+    date_of_death = db.Column(db.Date, nullable=True)
 
     books = db.relationship('Book', backref='author', lazy=True)
 

@@ -16,7 +16,7 @@ app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {"connect_args": {"check_same_thread":
 db.init_app(app)
 
 #with app.app_context(): #commented out after initializing the table
-   #db.create_all()
+ #  db.create_all()
 
 def validate_isbn(isbn: str) -> bool:
     """checks if the given ISBN is valid"""
@@ -31,14 +31,13 @@ def add_author():
     if request.method == 'POST':
         try:
             name = request.form.get('name')
-            birth_date = request.form.get('birthdate')
-            if not isinstance(birth_date, datetime):
-                raise TypeError("Birthdate must be a datetime object")
-            birth_date = datetime.strptime(birth_date, '%Y-%m-%d')
-            date_of_death = request.form.get('date_of_death')
-            if not isinstance(date_of_death, datetime):
-                raise TypeError("Date of death must be a datetime object")
-            date_of_death = datetime.strptime(date_of_death, '%Y-%m-%d')
+            birth_date_str = request.form.get('birthdate')
+            date_of_death_str = request.form.get('date_of_death')
+
+            birth_date = datetime.strptime(birth_date_str, '%Y-%m-%d').date()
+            date_of_death = None
+            if date_of_death_str:
+                date_of_death = datetime.strptime(date_of_death_str, '%Y-%m-%d').date()
 
             author = Author(name, birth_date, date_of_death)
             db.session.add(author)
